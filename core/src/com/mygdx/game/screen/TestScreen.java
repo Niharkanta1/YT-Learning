@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.MyGdxGame;
 
+import static com.mygdx.game.MyGdxGame.*;
+
 /*
  * @created 16/01/2022
  * @project YT-Learning
@@ -34,11 +36,28 @@ public class GameScreen extends AbstractScreen {
         fixtureDef.filter.maskBits = BIT_GROUND | BIT_BOX;
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(0.5f);
+        fixtureDef.shape = circleShape;
         body.createFixture(fixtureDef);
-        circleShape.dispose(); // Dispose every shapes for memory management
+        circleShape.dispose(); // Dispose every shape for memory management
 
         // Create a Box
         bodyDef.position.set(5.3f, 6);
+        bodyDef.gravityScale = 1;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        body = world.createBody(bodyDef);
+        fixtureDef.isSensor = false;
+        fixtureDef.restitution = 0.5f;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.filter.categoryBits = BIT_BOX;
+        fixtureDef.filter.maskBits = BIT_GROUND | BIT_CIRCLE;
+        PolygonShape boxShape = new PolygonShape();
+        boxShape.setAsBox(0.5f, 0.5f);
+        fixtureDef.shape = boxShape;
+        body.createFixture(fixtureDef);
+        boxShape.dispose(); // Dispose every shape for memory management
+
+        // Create a Platform
+        bodyDef.position.set(4.5f, 2);
         bodyDef.gravityScale = 1;
         bodyDef.type = BodyDef.BodyType.StaticBody;
         body = world.createBody(bodyDef);
@@ -47,10 +66,11 @@ public class GameScreen extends AbstractScreen {
         fixtureDef.friction = 0.2f;
         fixtureDef.filter.categoryBits = BIT_GROUND;
         fixtureDef.filter.maskBits = -1;
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(0.5f, 0.5f);
+        boxShape = new PolygonShape();
+        boxShape.setAsBox(4f, 0.5f);
+        fixtureDef.shape = boxShape;
         body.createFixture(fixtureDef);
-        boxShape.dispose(); // Dispose every shapes for memory management
+        boxShape.dispose(); // Dispose every shape for memory management
     }
 
     @Override
@@ -60,7 +80,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,1,0,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         viewport.apply(true);
