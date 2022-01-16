@@ -1,10 +1,10 @@
-com/mygdx/game/screen/ScreenType.java
- com.mygdx.game.screen.ScreenType
 com/mygdx/game/MyGdxGame.java
  com.mygdx.game.MyGdxGame
+com/mygdx/game/screen/TestScreen.java
+ com.mygdx.game.screen.TestScreen
+com/mygdx/game/screen/ScreenType.java
+ com.mygdx.game.screen.ScreenType
 com/mygdx/game/screen/AbstractScreen.java
  com.mygdx.game.screen.AbstractScreen
-com/mygdx/game/screen/GameScreen.java
- com.mygdx.game.screen.GameScreen
 com/mygdx/game/screen/LoadingScreen.java
  com.mygdx.game.screen.LoadingScreen

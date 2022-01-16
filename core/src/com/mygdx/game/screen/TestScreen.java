@@ -14,11 +14,11 @@ import static com.mygdx.game.MyGdxGame.*;
  * @project YT-Learning
  * @author nihar
  */
-public class GameScreen extends AbstractScreen {
+public class TestScreen extends AbstractScreen {
     private final BodyDef bodyDef;
     private final FixtureDef fixtureDef;
 
-    public GameScreen(final MyGdxGame context) {
+    public TestScreen(final MyGdxGame context) {
         super(context);
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();

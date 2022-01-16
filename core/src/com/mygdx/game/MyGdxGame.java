@@ -25,13 +25,24 @@ public class MyGdxGame extends Game {
 	private World world;
 	private Box2DDebugRenderer box2DDebugRenderer;
 
-	public static final short BIT_CIRCLE;
+	// 0000 0000 0000 0000
+	// 0000 0000 0000 0001
+	// 0000 0000 0000 0010
+	// 0000 0000 0000 0100
+	public static final short BIT_CIRCLE = 1 << 0;
+	public static final short BIT_BOX = 1 << 1;
+	public static final short BIT_GROUND = 1 << 2;
+
+	private static final float FIXED_TIME_STEP = 1 / 60f;
+	private float accumulator;
+
 
 	@Override
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		Box2D.init();
-		world = new World(new Vector2(0f, 9.81f), true);
+		world = new World(new Vector2(0f, -9.81f), true);
+		accumulator = 0f;
 
 		box2DDebugRenderer = new Box2DDebugRenderer();
 		screenCache = new EnumMap<>(ScreenType.class);
@@ -59,13 +70,23 @@ public class MyGdxGame extends Game {
 	}
 
 	@Override
+	public void render() {
+		super.render();
+		accumulator += Math.min(0.25f, Gdx.graphics.getDeltaTime());
+		while(accumulator >= FIXED_TIME_STEP) {
+			world.step(FIXED_TIME_STEP, 6, 2);
+			accumulator -= FIXED_TIME_STEP;
+		}
+	}
+
+	@Override
 	public void dispose () {
 		super.dispose();
 		box2DDebugRenderer.dispose();
 		world.dispose();
 	}
 
-	public FitViewport getScrrenViewPort() {
+	public FitViewport getScreenViewPort() {
 		return screenViewPort;
 	}
 	public Box2DDebugRenderer getBox2DDebugRenderer() { return box2DDebugRenderer; }

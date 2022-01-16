@@ -20,7 +20,7 @@ public abstract class AbstractScreen implements Screen {
 
     public AbstractScreen(final MyGdxGame context) {
         this.context = context;
-        viewport = context.getScrrenViewPort();
+        viewport = context.getScreenViewPort();
         box2DDebugRenderer = context.getBox2DDebugRenderer();
         world = context.getWorld();
     }
