@@ -2,7 +2,6 @@ package com.mygdx.game.screen;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.MyGdxGame;
@@ -38,7 +37,20 @@ public class TestScreen extends AbstractScreen {
         circleShape.setRadius(0.5f);
         fixtureDef.shape = circleShape;
         body.createFixture(fixtureDef);
+        body.setUserData("The Circle");
         circleShape.dispose(); // Dispose every shape for memory management
+
+        // Create a Sensor
+        fixtureDef.isSensor = true;
+        fixtureDef.restitution = 0;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.filter.categoryBits = BIT_CIRCLE;
+        fixtureDef.filter.maskBits = BIT_BOX;
+        ChainShape chainShape = new ChainShape();
+        chainShape.createChain(new float[]{-0.5f, -0.7f, 0.5f, -0.7f});
+        fixtureDef.shape = chainShape;
+        body.createFixture(fixtureDef);
+        chainShape.dispose();
 
         // Create a Box
         bodyDef.position.set(5.3f, 6);
@@ -54,6 +66,7 @@ public class TestScreen extends AbstractScreen {
         boxShape.setAsBox(0.5f, 0.5f);
         fixtureDef.shape = boxShape;
         body.createFixture(fixtureDef);
+        body.setUserData("The Box");
         boxShape.dispose(); // Dispose every shape for memory management
 
         // Create a Platform
@@ -70,6 +83,7 @@ public class TestScreen extends AbstractScreen {
         boxShape.setAsBox(4f, 0.5f);
         fixtureDef.shape = boxShape;
         body.createFixture(fixtureDef);
+        body.setUserData("The Platform");
         boxShape.dispose(); // Dispose every shape for memory management
     }
 
@@ -80,12 +94,12 @@ public class TestScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         viewport.apply(true);
-        world.step(delta, 6, 2);
         box2DDebugRenderer.render(world, viewport.getCamera().combined);
+        //System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
     @Override
